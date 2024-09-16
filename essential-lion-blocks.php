@@ -16,6 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
+// Enqueue scripts and styles
+require_once plugin_dir_path(__FILE__) . 'includes/enqueue-scripts.php';
+
 // Shortcode
 require_once plugin_dir_path(__FILE__) . 'public/shortcodes/carousel_posts_shortcode.php';
 
