@@ -26,3 +26,19 @@ require_once plugin_dir_path(__FILE__) . 'public/shortcodes/custom_post_display_
 
 // Admin functions (if any)
 require_once plugin_dir_path(__FILE__) . 'admin/admin-functions.php';
+
+// Plugin update checker master library
+require 'plugin-update-checker/plugin-update-checker.php';
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$myUpdateChecker = PucFactory::buildUpdateChecker(
+	'https://github.com/LeonCantillo/Essential-Lion-Blocks/',
+	__FILE__,
+	'essential-lion-blocks'
+);
+
+//Set the branch that contains the stable release.
+$myUpdateChecker->setBranch('main');
+
+//Optional: If you're using a private repository, specify the access token like this:
+// $myUpdateChecker->setAuthentication('your-token-here');
