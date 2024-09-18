@@ -24,6 +24,7 @@ function carousel_posts_shortcode($atts) {
         'latest_by_author' => 'false'
     ), $atts, 'custom_posts_carousel');
 
+    // Crear array base de argumentos
     $args = array(
         'post_type' => sanitize_text_field($atts['post_type']),
         'posts_per_page' => intval($atts['posts_per_page']),
@@ -32,7 +33,7 @@ function carousel_posts_shortcode($atts) {
         'no_found_rows' => false,
     );
 
-    // Detectar taxonomía si se proporciona término sin taxonomía
+    // Configurar taxonomía y términos si se proporcionan
     if (!empty($atts['term']) && empty($atts['taxonomy'])) {
         $taxonomies = get_object_taxonomies(sanitize_text_field($atts['post_type']), 'objects');
         foreach ($taxonomies as $taxonomy) {
@@ -49,9 +50,54 @@ function carousel_posts_shortcode($atts) {
             array(
                 'taxonomy' => sanitize_text_field($atts['taxonomy']),
                 'field' => 'slug',
-                'terms' => sanitize_text_field($atts['term'])
-            )
+                'terms' => sanitize_text_field($atts['term']),
+            ),
         );
+    }
+
+    // Manejar el atributo `latest_by_author`
+    if ($atts['latest_by_author'] === 'true') {
+        // Obtener todos los autores que han publicado
+        $authors = get_users(array(
+            'who' => 'authors',
+            'has_published_posts' => sanitize_text_field($atts['post_type'])
+        ));
+
+        $post_ids = array();
+        foreach ($authors as $author) {
+            // Obtener el último post de cada autor según los argumentos base
+            $latest_post = get_posts(array_merge($args, array(
+                'author' => $author->ID,
+                'posts_per_page' => 1,
+                'fields' => 'ids',
+            )));
+            if (!empty($latest_post)) {
+                $post_ids[] = $latest_post[0];
+            }
+        }
+
+        // Si se encuentran posts, crear nueva consulta basada en esos IDs
+        if (!empty($post_ids)) {
+            $args = array(
+                'post__in' => $post_ids,
+                'orderby' => 'post__in',
+                'posts_per_page' => intval($atts['posts_per_page']),
+                'post_type' => sanitize_text_field($atts['post_type']),
+            );
+
+            // Volver a aplicar taxonomía y término si existen
+            if (!empty($atts['taxonomy']) && !empty($atts['term'])) {
+                $args['tax_query'] = array(
+                    array(
+                        'taxonomy' => sanitize_text_field($atts['taxonomy']),
+                        'field' => 'slug',
+                        'terms' => sanitize_text_field($atts['term']),
+                    ),
+                );
+            }
+        } else {
+            $args['posts_per_page'] = 0; // No hay posts que mostrar
+        }
     }
 
     // Consulta de posts
