@@ -28,7 +28,7 @@ require_once plugin_dir_path(__FILE__) . 'public/shortcodes/custom_post_display_
 require_once plugin_dir_path(__FILE__) . 'admin/admin-functions.php';
 
 // Plugin update checker master library
-require 'plugin-update-checker/plugin-update-checker.php';
+require 'plugin-update-checker-master/plugin-update-checker.php';
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 $myUpdateChecker = PucFactory::buildUpdateChecker(
