@@ -24,7 +24,6 @@ function carousel_posts_shortcode($atts) {
         'latest_by_author' => 'false'
     ), $atts, 'custom_posts_carousel');
 
-    // Crear array base de argumentos
     $args = array(
         'post_type' => sanitize_text_field($atts['post_type']),
         'posts_per_page' => intval($atts['posts_per_page']),
@@ -33,7 +32,6 @@ function carousel_posts_shortcode($atts) {
         'no_found_rows' => false,
     );
 
-    // Configurar taxonomía y términos si se proporcionan
     if (!empty($atts['term']) && empty($atts['taxonomy'])) {
         $taxonomies = get_object_taxonomies(sanitize_text_field($atts['post_type']), 'objects');
         foreach ($taxonomies as $taxonomy) {
@@ -55,9 +53,7 @@ function carousel_posts_shortcode($atts) {
         );
     }
 
-    // Manejar el atributo `latest_by_author`
     if ($atts['latest_by_author'] === 'true') {
-        // Obtener todos los autores que han publicado
         $authors = get_users(array(
             'who' => 'authors',
             'has_published_posts' => sanitize_text_field($atts['post_type'])
@@ -65,7 +61,6 @@ function carousel_posts_shortcode($atts) {
 
         $post_ids = array();
         foreach ($authors as $author) {
-            // Obtener el último post de cada autor según los argumentos base
             $latest_post = get_posts(array_merge($args, array(
                 'author' => $author->ID,
                 'posts_per_page' => 1,
@@ -76,7 +71,6 @@ function carousel_posts_shortcode($atts) {
             }
         }
 
-        // Si se encuentran posts, crear nueva consulta basada en esos IDs
         if (!empty($post_ids)) {
             $args = array(
                 'post__in' => $post_ids,
@@ -85,7 +79,6 @@ function carousel_posts_shortcode($atts) {
                 'post_type' => sanitize_text_field($atts['post_type']),
             );
 
-            // Volver a aplicar taxonomía y término si existen
             if (!empty($atts['taxonomy']) && !empty($atts['term'])) {
                 $args['tax_query'] = array(
                     array(
@@ -96,11 +89,10 @@ function carousel_posts_shortcode($atts) {
                 );
             }
         } else {
-            $args['posts_per_page'] = 0; // No hay posts que mostrar
+            $args['posts_per_page'] = 0;
         }
     }
 
-    // Consulta de posts
     $query = new WP_Query($args);
 
     ob_start();
@@ -127,7 +119,12 @@ function carousel_posts_shortcode($atts) {
                 <?php endif; ?>
                 
                 <?php if ($atts['show_author'] === 'true') : ?>
-                    <p class="carousel-author"><?php _e('Por', 'carousel-posts'); ?> <span class="carousel-author-name"><?php the_author(); ?></span></p>
+                    <p class="carousel-author">
+                        <?php _e('Por', 'carousel-posts'); ?> 
+                        <a href="<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID'))); ?>" class="carousel-author-name">
+                            <?php the_author(); ?>
+                        </a>
+                    </p>
                 <?php endif; ?>
                 
                 <?php if ($atts['show_date'] === 'true' || $atts['show_categories'] === 'true') : ?>
