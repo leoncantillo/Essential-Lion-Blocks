@@ -2,7 +2,7 @@
 /**
  * Plugin Name:  Essential Lion Blocks
  * Description:  Plugin to display custom blocks with shortcodes
- * Version:      1.1
+ * Version:      1.2
  * Author:       Leon Cantillo
  * Author URI:   https://github.com/LeonCantillo
  * License:      MIT

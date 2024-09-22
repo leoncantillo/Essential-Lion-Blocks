@@ -23,6 +23,9 @@ custom blocks using shortcodes, mainly created in order to avoid using separate 
 = 1.1 =
 * Enabling functionality to display only the last post by each author.
 
+= 1.2 =
+* Enabling link to authors' posts.
+
 == A brief Markdown Example ==
 
 1. Custom blocks using shortcodes.
