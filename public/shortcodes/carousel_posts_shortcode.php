@@ -21,7 +21,8 @@ function carousel_posts_shortcode($atts) {
         'show_nav' => 'true',
         'show_dots' => 'true',
         'style' => 1,
-        'latest_by_author' => 'false'
+        'latest_by_author' => 'false',
+        'author_image_as_thumbnail' => 'false',
     ), $atts, 'custom_posts_carousel');
 
     $args = array(
@@ -104,11 +105,25 @@ function carousel_posts_shortcode($atts) {
             $query->the_post();
             ?>
             <div class="item">
-                <?php if ($atts['show_image'] === 'true' && has_post_thumbnail()) : ?>
-                    <div class="carousel-image">
-                        <?php the_post_thumbnail('large'); ?>
-                    </div>
-                <?php endif; ?>
+                <?php 
+                if ($atts['show_image'] === 'true') : 
+                    if ($atts['author_image_as_thumbnail'] === 'true') {
+                        $author_id = get_the_author_meta('ID');
+                        $author_image = get_avatar_url($author_id, array('size' => '300'));
+                        ?>
+                        <div class="carousel-image">
+                            <img src="<?php echo esc_url($author_image); ?>" alt="<?php the_author(); ?>" />
+                        </div>
+                        <?php
+                    } elseif (has_post_thumbnail()) {
+                        ?>
+                        <div class="carousel-image">
+                            <?php the_post_thumbnail('large'); ?>
+                        </div>
+                        <?php
+                    }
+                endif;
+                ?>
                 
                 <?php if ($atts['show_title'] === 'true') : ?>
                     <h2 class="carousel-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
