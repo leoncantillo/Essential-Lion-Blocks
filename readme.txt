@@ -26,6 +26,10 @@ custom blocks using shortcodes, mainly created in order to avoid using separate 
 = 1.2 =
 * Enabling link to authors' posts.
 
+= 1.3 =
+*In this update a new property is added in the carousel plugin that allows to use the author's image as the main visible image.
+*In addition a new shortcode is added with which you can print the author image with different styles and dimensional properties.
+
 == A brief Markdown Example ==
 
 1. Custom blocks using shortcodes.
