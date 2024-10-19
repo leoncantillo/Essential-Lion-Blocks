@@ -20,9 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once plugin_dir_path(__FILE__) . 'includes/cpd-ajax-handler.php';
 require_once plugin_dir_path(__FILE__) . 'includes/enqueue-scripts.php';
 
-// Shortcode
+// Shortcodes
 require_once plugin_dir_path(__FILE__) . 'public/shortcodes/carousel_posts_shortcode.php';
 require_once plugin_dir_path(__FILE__) . 'public/shortcodes/custom_post_display_shortcode.php';
+require_once plugin_dir_path(__FILE__) . 'public/shortcodes/author_image_shortcode.php';
 
 // Admin functions (if any)
 require_once plugin_dir_path(__FILE__) . 'admin/admin-functions.php';
