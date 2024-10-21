@@ -36,7 +36,7 @@ custom blocks using shortcodes, mainly created in order to avoid using separate 
 2. Easy-to-use interface.
 
 Links:
-[GitHub Repository](https://github.com/LeonCantillo/ "Essential Lion Blocks on GitHub")
+[GitHub Repository](https://github.com/leoncantillo/ "Essential Lion Blocks on GitHub")
 
 
 `<?php code(); ?>`
