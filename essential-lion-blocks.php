@@ -4,7 +4,7 @@
  * Description:  Plugin to display custom blocks with shortcodes
  * Version:      1.3
  * Author:       Leon Cantillo
- * Author URI:   https://github.com/LeonCantillo
+ * Author URI:   https://github.com/leoncantillo
  * License:      MIT
  * License URI:  https://opensource.org/licenses/MIT
  * Text Domain:  Essential-Blocks
