@@ -48,15 +48,15 @@ function carousel_posts_enqueue_assets() {
     ');
 
     // Enqueue custom styles
-    // wp_enqueue_style('carousel-custom-styles', plugin_dir_url(__FILE__) . '../public/css/custom-styles.css');
-    wp_enqueue_style('carousel-custom-styles1', plugin_dir_url(__FILE__) . '../public/css/carousel-styles-1.css');
-    wp_enqueue_style('carousel-custom-styles2', plugin_dir_url(__FILE__) . '../public/css/carousel-styles-2.css');
+    wp_enqueue_style('carousel-custom-general-style', plugin_dir_url(__FILE__) . '../public/css/carousel-post/carousel-general-style.css');
+    wp_enqueue_style('carousel-custom-style-1', plugin_dir_url(__FILE__) . '../public/css/carousel-post/carousel-style-1.css');
+    wp_enqueue_style('carousel-custom-style-2', plugin_dir_url(__FILE__) . '../public/css/carousel-post/carousel-style-2.css');
 }
 add_action('wp_enqueue_scripts', 'carousel_posts_enqueue_assets');
 
 // Custom Post Display Shortcode
 function cpd_enqueue_scripts() {
-    wp_enqueue_style( 'cpd-style', plugins_url( '../public/css/custom-post-display-styles.css', __FILE__ ) );
+    wp_enqueue_style( 'cpd-style', plugins_url( '../public/css/custom-post-display/custom-post-display-styles.css', __FILE__ ) );
     wp_enqueue_script( 'cpd-script', plugins_url( '../public/js/cpd-ajax-load-posts.js', __FILE__ ), array('jquery'), null, true );
     // Pasar datos a JavaScript
     wp_localize_script( 'cpd-script', 'cpd_vars', array(

@@ -1,22 +1,3 @@
-.owl-carousel.style-1 .owl-prev,
-.owl-carousel.style-1 .owl-next {
-    position: absolute;
-    top: 20%;
-    transform: translateY(-50%);
-    color: #333;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 1000;
-}
-
-.owl-carousel.style-1 .owl-prev {
-    left: -25px;
-}
-
-.owl-carousel.style-1 .owl-next {
-    right: -25px;
-}
-
 .owl-carousel.style-1 .owl-item {
     border: 1px solid #a3a3a324;
     border-radius: 5px;
