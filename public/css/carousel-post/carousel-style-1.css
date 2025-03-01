@@ -31,10 +31,12 @@
     text-align: center;
 }
 
-.owl-carousel.style-1 .item img {
-    display: inline;
-    height: auto;
-    width: 100%;
+.owl-carousel.style-1 .item .author-image,
+.owl-carousel.style-1 .item .thumbnail-image{ place-items: center; }
+.owl-carousel.style-1 .item .author-image img { height: auto; }
+.owl-carousel.style-1 .item .thumbnail-image img {
+	height: 300px;
+	object-fit: cover;
 }
 
 .owl-carousel.style-1 .carousel-title {

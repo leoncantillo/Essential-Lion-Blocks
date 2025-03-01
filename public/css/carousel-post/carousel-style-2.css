@@ -12,6 +12,7 @@
     width: auto;
 }
 
+.owl-carousel.style-2 .item .author-image,
 .owl-carousel.style-2 .item .thumbnail-image {
     filter: brightness(0.7);
 	height: 100%;
