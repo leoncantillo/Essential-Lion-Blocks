@@ -23,6 +23,7 @@ function carousel_posts_shortcode($atts) {
         'style' => 1,
         'latest_by_author' => 'false',
         'author_image_as_thumbnail' => 'false',
+        'exclude_current' => 'false',
     ), $atts, 'custom_posts_carousel');
 
     $args = array(
@@ -32,6 +33,10 @@ function carousel_posts_shortcode($atts) {
         'order' => 'DESC',
         'no_found_rows' => false,
     );
+
+    if ($atts['exclude_current'] === 'true' && is_single()) {
+        $args['post__not_in'] = array(get_the_ID());
+    }
 
     if (!empty($atts['term']) && empty($atts['taxonomy'])) {
         $taxonomies = get_object_taxonomies(sanitize_text_field($atts['post_type']), 'objects');
@@ -111,13 +116,13 @@ function carousel_posts_shortcode($atts) {
                         $author_id = get_the_author_meta('ID');
                         $author_image = get_avatar_url($author_id, array('size' => '300'));
                         ?>
-                        <div class="carousel-image">
+                        <div class="author-image">
                             <img src="<?php echo esc_url($author_image); ?>" alt="<?php the_author(); ?>" />
                         </div>
                         <?php
                     } elseif (has_post_thumbnail()) {
                         ?>
-                        <div class="carousel-image">
+                        <div class="thumbnail-image">
                             <?php the_post_thumbnail('large'); ?>
                         </div>
                         <?php
