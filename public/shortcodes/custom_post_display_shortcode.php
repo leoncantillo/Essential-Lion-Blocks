@@ -7,12 +7,14 @@ if (!defined('ABSPATH')) {
 function cpd_display_posts( $atts ) {
     $atts = shortcode_atts(
         array(
-			'image_height' => '300px',
+            'image_height' => '300px',
             'show_image' => 'true',
             'show_title' => 'true',
             'show_excerpt' => 'true',
             'show_author' => 'true',
             'show_read_more' => 'false',
+            'show_category' => 'false',
+            'show_categories' => 'false',
             'post_type' => 'post',
             'taxonomy' => '',
             'term' => '',
@@ -28,7 +30,7 @@ function cpd_display_posts( $atts ) {
         'paged' => get_query_var('paged') ? get_query_var('paged') : 1
     );
 
-    if ( !empty($atts['taxonomy']) && !empty($atts['term']) ) {
+    if (!empty($atts['taxonomy']) && !empty($atts['term'])) {
         $query_args['tax_query'] = array(
             array(
                 'taxonomy' => $atts['taxonomy'],
@@ -38,7 +40,7 @@ function cpd_display_posts( $atts ) {
         );
     }
 
-    $query = new WP_Query( $query_args );
+    $query = new WP_Query($query_args);
     $total_posts = $query->found_posts;
     $posts_per_page = intval($atts['posts_per_page']);
     $current_page = get_query_var('paged') ? get_query_var('paged') : 1;
@@ -56,34 +58,58 @@ function cpd_display_posts( $atts ) {
             data-show-excerpt="<?php echo esc_attr($atts['show_excerpt']); ?>"
             data-show-author="<?php echo esc_attr($atts['show_author']); ?>"
             data-show-read-more="<?php echo esc_attr($atts['show_read_more']); ?>"
-			data-image-height="<?php echo esc_attr($atts['image_height']); ?>"
+            data-show-category="<?php echo esc_attr($atts['show_category']); ?>"
+            data-show-categories="<?php echo esc_attr($atts['show_categories']); ?>"
+            data-image-height="<?php echo esc_attr($atts['image_height']); ?>"
         >
             <?php
 
-            if ( $query->have_posts() ) :
-                while ( $query->have_posts() ) : $query->the_post();
+            if ($query->have_posts()) :
+                while ($query->have_posts()) : $query->the_post();
                     ?>
                     <div class="cpd-post-item">
-                         <?php if ( 'true' === $atts['show_image'] && has_post_thumbnail() ) : ?>
-							<div class="cpd-post-image" style="height: <?php echo esc_attr($atts['image_height']); ?>;">
-								<?php the_post_thumbnail(); ?>
-							</div>
-						<?php endif; ?>
+                        <?php 
+                        $categories = wp_get_post_terms(get_the_ID(), $atts['taxonomy']); 
+                        
+                        if (!empty($categories)) :
+                            if ('true' === $atts['show_category']) : 
+                                ?>
+                                <div class="cpd-post-category">
+                                    <span><?php echo esc_html($categories[0]->name); ?></span>
+                                </div>
+                                <?php
+                            endif;
+                            
+                            if ('true' === $atts['show_categories']) : 
+                                ?>
+                                <div class="cpd-post-categories">
+                                    <span><?php echo esc_html(implode(', ', wp_list_pluck($categories, 'name'))); ?></span>
+                                </div>
+                                <?php
+                            endif;
+                        endif;
+                        ?>
+
+                        <?php if ('true' === $atts['show_image'] && has_post_thumbnail()) : ?>
+                            <div class="cpd-post-image" style="height: <?php echo esc_attr($atts['image_height']); ?>;">
+                                <?php the_post_thumbnail(); ?>
+                            </div>
+                        <?php endif; ?>
                         
                         <div class="cpd-post-infocontainer">
-                            <?php if ( 'true' === $atts['show_title'] ) : ?>
+                            <?php if ('true' === $atts['show_title']) : ?>
                                 <h2 class="cpd-post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
                             <?php endif; ?>
                             
-                            <?php if ( 'true' === $atts['show_excerpt'] ) : ?>
+                            <?php if ('true' === $atts['show_excerpt']) : ?>
                                 <div class="cpd-post-excerpt"><?php the_excerpt(); ?></div>
                             <?php endif; ?>
                             
-                            <?php if ( 'true' === $atts['show_author'] ) : ?>
+                            <?php if ('true' === $atts['show_author']) : ?>
                                 <div class="cpd-post-author">Autor: <?php the_author(); ?></div>
                             <?php endif; ?>
                             
-                            <?php if ( 'true' === $atts['show_read_more'] ) : ?>
+                            <?php if ('true' === $atts['show_read_more']) : ?>
                                 <a class="cpd-read-more" href="<?php the_permalink(); ?>">Leer más</a>
                             <?php endif; ?>
                         </div>
@@ -107,4 +133,4 @@ function cpd_display_posts( $atts ) {
 
     return ob_get_clean();
 }
-add_shortcode( 'custom_posts', 'cpd_display_posts' );
+add_shortcode('custom_posts', 'cpd_display_posts');
