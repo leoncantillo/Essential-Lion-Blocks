@@ -19,10 +19,6 @@
 .owl-carousel .owl-next { right: -25px; }
 
 @media (max-width: 480px) {
-	.owl-carousel .owl-prev,
-	.owl-carousel .owl-next {
-		top: 50%;
-	}
 	.owl-carousel .owl-prev { left: 0; }
 	.owl-carousel .owl-next { right: 0; }
 }
