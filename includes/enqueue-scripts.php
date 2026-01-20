@@ -64,3 +64,10 @@ function cpd_enqueue_scripts() {
     ));
 }
 add_action( 'wp_enqueue_scripts', 'cpd_enqueue_scripts' );
+
+// CPD Hero Slider Shortcode
+function cpd_hero_slider_enqueue_scripts() {
+    wp_enqueue_style( 'cpd-hero-slider-style', plugins_url( '../public/css/cpd-hero-slider/cpd-hero-slider-styles.css', __FILE__ ) );
+    wp_enqueue_script( 'cpd-hero-slider-script', plugins_url( '../public/js/cpd-hero-slider.js', __FILE__ ), array('jquery'), null, true );
+}
+add_action( 'wp_enqueue_scripts', 'cpd_hero_slider_enqueue_scripts' );
