@@ -48,7 +48,11 @@ function cpd_hero_slider_shortcode($atts) {
                        background-position: center <?php echo $pos_y; ?>;">
 
                 <div class="cpd-hero-overlay alignwide">
-                    <h2><?php echo esc_html($title); ?></h2>
+					<h2>
+						<a href="<?php the_permalink(); ?>">
+							<?php echo esc_html($title); ?>
+						</a>
+					</h2>
                 </div>
 
             </article>
